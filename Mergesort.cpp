@@ -1,11 +1,31 @@
 #include <iostream>
 using namespace std;
-void merge(int a[], int low, int mid, int high)
+int a[100], n = 0;
+bool entered = false;
+void readArray()
 {
+    cout << "Enter number of elements: ";
+    cin >> n;
+    if (n <= 0 || n > 100)
+    {
+        cout << "Invalid size!" << endl;
+        n = 0;
+        entered = false;
+        return;
+    }
+    cout << "Enter array elements: ";
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    entered = true;
+}
+void merge(int low, int mid, int high)
+{
+    int temp[100];
     int i = low;
     int j = mid + 1;
     int k = low;
-    int temp[100];
     while (i <= mid && j <= high)
     {
         if (a[i] < a[j])
@@ -26,44 +46,80 @@ void merge(int a[], int low, int mid, int high)
         i++;
         k++;
     }
-
     while (j <= high)
     {
         temp[k] = a[j];
         j++;
         k++;
     }
+
     for (i = low; i <= high; i++)
     {
         a[i] = temp[i];
     }
 }
-void mergeSort(int a[], int low, int high)
+void mergeSort(int low, int high)
 {
     if (low < high)
     {
         int mid = (low + high) / 2;
-        mergeSort(a, low, mid);
-        mergeSort(a, mid + 1, high);
-        merge(a, low, mid, high);
+
+        mergeSort(low, mid);
+        mergeSort(mid + 1, high);
+        merge(low, mid, high);
     }
 }
-int main()
+void displayArray()
 {
-    int n;
-    int a[100];
-    cout << "Enter number of elements: ";
-    cin >> n;
-    cout << "Enter elements: ";
-    for (int i = 0; i < n; i++)
+    if (!entered)
     {
-        cin >> a[i];
+        cout << "Please read the array first!" << endl;
+        return;
     }
-    mergeSort(a, 0, n - 1);
-    cout << "Sorted array: ";
+    cout << "Array elements: ";
     for (int i = 0; i < n; i++)
     {
         cout << a[i] << " ";
     }
+    cout << endl;
+}
+int main()
+{
+    int choice;
+    cout << "\n--- MERGE SORT MENU ---" << endl;
+    cout << "1. Read array" << endl;
+    cout << "2. Sort array" << endl;
+    cout << "3. Display array" << endl;
+    cout << "4. Quit" << endl;
+    do
+    {
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+            case 1:
+                readArray();
+                break;
+            case 2:
+                if (entered)
+                {
+                    mergeSort(0, n - 1);
+                    cout << "Array sorted successfully!" << endl;
+                }
+                else
+                {
+                    cout << "Please read the array first!" << endl;
+                }
+                break;
+            case 3:
+                displayArray();
+                break;
+            case 4:
+                cout << "Exiting program." << endl;
+                break;
+            default:
+                cout << "Invalid choice!" << endl;
+        }
+    } while (choice != 4);
     return 0;
 }
