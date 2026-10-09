@@ -1,5 +1,7 @@
 #include <iostream>
 using namespace std;
+int a[100], n;
+bool read = false, sorted = false;
 int partition(int a[], int low, int high)
 {
     int pivot = a[high];
@@ -28,22 +30,69 @@ void quickSort(int a[], int low, int high)
         quickSort(a, p + 1, high);
     }
 }
-int main()
+void readArray()
 {
-    int n;
-    int a[100];
     cout << "Enter number of elements: ";
     cin >> n;
-    cout << "Enter elements: ";
-    for (int i = 0; i < n; i++)
+    if (n <= 0 || n > 100)
     {
+        cout << "Invalid number of elements\n";
+        read = false;
+        return;
+    }
+    cout << "Enter array elements:\n";
+    for (int i = 0; i < n; i++)
         cin >> a[i];
-    }
-    quickSort(a, 0, n - 1);
-    cout << "Sorted array: ";
-    for (int i = 0; i < n; i++)
+    read = true;
+    sorted = false;
+}
+void displayArray()
+{
+    if (!read)
     {
-        cout << a[i] << " ";
+        cout << "Please read the array first.\n";
+        return;
     }
+    cout << "Array elements: ";
+    for (int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    cout << "\n";
+}
+int main()
+{
+    int choice;
+    cout << "\n1. Read the array";
+    cout << "\n2. Sort using Quick Sort";
+    cout << "\n3. Display the array";
+    cout << "\n4. Quit";
+    do
+    {
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            readArray();
+            break;
+        case 2:
+            if (!read)
+                cout << "Please read the array first.\n";
+            else
+            {
+                quickSort(a, 0, n - 1);
+                sorted = true;
+                cout << "Array sorted successfully.\n";
+            }
+            break;
+        case 3:
+            displayArray();
+            break;
+        case 4:
+            cout << "Exiting program.\n";
+            break;
+        default:
+            cout << "Invalid choice.\n";
+        }
+    } while (choice != 4);
     return 0;
 }
