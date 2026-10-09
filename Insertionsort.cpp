@@ -54,13 +54,13 @@ void displayArray()
 int main()
 {
     int choice;
+    cout << "\n--- INSERTION SORT MENU ---" << endl;
+    cout << "1. Read array" << endl;
+    cout << "2. Sort array" << endl;
+    cout << "3. Display array" << endl;
+    cout << "4. Quit" << endl;
     do
     {
-        cout << "\n--- INSERTION SORT MENU ---" << endl;
-        cout << "1. Read array" << endl;
-        cout << "2. Sort array" << endl;
-        cout << "3. Display array" << endl;
-        cout << "4. Quit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
         switch (choice)
