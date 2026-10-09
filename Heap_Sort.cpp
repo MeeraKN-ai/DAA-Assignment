@@ -1,60 +1,113 @@
 #include <iostream>
 using namespace std;
-void heapify(int A[], int idx, int n)
+int a[100], n = 0;
+bool entered = false;
+void readArray()
 {
-    int l = 2 * idx + 1;
-    int r = 2 * idx + 2;
-    int largest = idx;
-    if (l < n && A[l] > A[largest])
+    cout << "Enter number of elements: ";
+    cin >> n;
+    if (n <= 0 || n > 100)
     {
-        largest = l;
+        cout << "Invalid size!" << endl;
+        n = 0;
+        entered = false;
+        return;
     }
-    if (r < n && A[r] > A[largest])
+    cout << "Enter array elements: ";
+    for (int i = 0; i < n; i++)
     {
-        largest = r;
+        cin >> a[i];
     }
-    if (largest != idx)
+    entered = true;
+}
+void heapify(int n, int i)
+{
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    if (left < n && a[left] > a[largest])
     {
-        int temp = A[idx];
-        A[idx] = A[largest];
-        A[largest] = temp;
-        heapify(A, largest, n);
+        largest = left;
+    }
+    if (right < n && a[right] > a[largest])
+    {
+        largest = right;
+    }
+    if (largest != i)
+    {
+        int temp = a[i];
+        a[i] = a[largest];
+        a[largest] = temp;
+
+        heapify(n, largest);
     }
 }
-void buildheap(int A[], int n)
+void sortArray()
 {
     for (int i = n / 2 - 1; i >= 0; i--)
     {
-        heapify(A, i, n);
+        heapify(n, i);
+    }
+    for (int i = n - 1; i > 0; i--)
+    {
+        int temp = a[0];
+        a[0] = a[i];
+        a[i] = temp;
+
+        heapify(i, 0);
     }
 }
-void Sort(int A[], int n)
+void displayArray()
 {
-    buildheap(A, n);
-    for (int i = n - 1; i >= 1; i--)
+    if (!entered)
     {
-        int temp = A[0];
-        A[0] = A[i];
-        A[i] = temp;
-        heapify(A, 0, i);
+        cout << "Please read the array first!" << endl;
+        return;
     }
+    cout << "Array elements: ";
+    for (int i = 0; i < n; i++)
+    {
+        cout << a[i] << " ";
+    }
+    cout << endl;
 }
 int main()
 {
-    int n;
-    cout << "Enter number of elements: ";
-    cin >> n;
-    int A[n];
-    cout << "Enter elements: ";
-    for (int i = 0; i < n; i++)
+    int choice;
+    cout << "\n--- HEAP SORT MENU ---" << endl;
+    cout << "1. Read array" << endl;
+    cout << "2. Sort array" << endl;
+    cout << "3. Display array" << endl;
+    cout << "4. Quit" << endl;
+    do
     {
-        cin >> A[i];
-    }
-    Sort(A, n);
-    cout << "Sorted array: ";
-    for (int i = 0; i < n; i++)
-    {
-        cout << A[i] << " ";
-    }
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+            case 1:
+                readArray();
+                break;
+            case 2:
+                if (entered)
+                {
+                    sortArray();
+                    cout << "Array sorted successfully!" << endl;
+                }
+                else
+                {
+                    cout << "Please read the array first!" << endl;
+                }
+                break;
+            case 3:
+                displayArray();
+                break;
+            case 4:
+                cout << "Exiting program." << endl;
+                break;
+            default:
+                cout << "Invalid choice!" << endl;
+        }
+    } while (choice != 4);
     return 0;
 }
