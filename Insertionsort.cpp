@@ -10,8 +10,10 @@ cout << "Enter number of elements: ";
         entered = false; 
         return; 
     } 
-    else if (n<0){ 
-      cout<< "Invalid number of elements\n"; 
+    else if (n<0 || n>100){ 
+        cout<< "Invalid number of elements\n"; 
+        entered = false;
+        return;
     } 
     else{ 
       cout << "Enter array elements:\n"; 
