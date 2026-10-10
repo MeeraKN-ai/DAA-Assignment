@@ -10,8 +10,10 @@ void readArray(){
         entered = false;
         return;
     }
-    else if (n<0){
+    else if (n<0 || n>100){
     	 cout<< "Invalid number of elements\n";
+         entered = false;
+         return;
     }
     else{
     	 cout << "Enter array elements:\n";
