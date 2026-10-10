@@ -10,12 +10,14 @@ void readArray(){
         entered = false; 
         return; 
     } 
-    else if (n<0){ 
-      cout<< "Invalid number of elements\n"; 
+    else if (n<0 || n>100){ 
+        cout<< "Invalid number of elements\n"; 
+        entered = false;
+	    return;
     } 
     else{ 
-      cout << "Enter array elements:\n"; 
-      for (int i = 0; i < n; i++) 
+        cout << "Enter array elements:\n"; 
+        for (int i = 0; i < n; i++) 
             cin >> a[i]; 
             entered = true; 
     } 
