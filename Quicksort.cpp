@@ -33,15 +33,19 @@ void readArray(){
         	read = false; 
         	return; 
    	 } 
-    	else if (n<0){ 
+    	else if (n<0 || n>100){ 
       		cout<< "Invalid number of elements\n"; 
+			read = false;
+	  		sorted = false;
+			return;
+
    	} 
     	else{ 
       		cout << "Enter array elements:\n"; 
       		for (int i = 0; i < n; i++) 
             		cin >> a[i]; 
             		read = true; 
-          		sorted = false; 
+          		    sorted = false; 
     	} 
 } 
 void displayArray(){ 
