@@ -1,4 +1,6 @@
 #include <iostream>
+#include <queue>
+#include <stack>
 using namespace std;
 struct Node{
     int data;
@@ -6,36 +8,6 @@ struct Node{
     Node *right;
 };
 Node *root = NULL;
-void insertNode(int value){
-    Node *newNode = new Node;
-    newNode->data = value;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    if (root == NULL){
-        root = newNode;
-        return;
-    }
-    Node *queue[1000];
-    int front = 0, rear = 0;
-    queue[rear++] = root;
-    while (front < rear){
-        Node *temp = queue[front++];
-        if (temp->left == NULL){
-            temp->left = newNode;
-            return;
-        }
-        else{
-            queue[rear++] = temp->left;
-        }
-        if (temp->right == NULL){
-            temp->right = newNode;
-            return;
-        }
-        else{
-            queue[rear++] = temp->right;
-        }
-    }
-}
 void preorderRecursive(Node *temp){
     if (temp == NULL)
         return;
@@ -43,21 +15,53 @@ void preorderRecursive(Node *temp){
     preorderRecursive(temp->left);
     preorderRecursive(temp->right);
 }
-void preorderIterative(){
-    if (root == NULL){
+void insertNode(int value) {
+    Node *newNode = new Node;
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    if (root == NULL) {
+        root = newNode;
+        return;
+    }
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        Node *temp = q.front();
+        q.pop();
+
+
+        if (temp->left == NULL) {
+            temp->left = newNode;
+            return;
+        }
+        else {
+            q.push(temp->left);
+        }
+        if (temp->right == NULL) {
+            temp->right = newNode;
+            return;
+        }
+        else {
+            q.push(temp->right);
+        }
+    }
+}
+void preorderIterative() {
+    if (root == NULL) {
         cout << "Tree is empty";
         return;
     }
-    Node *stack[1000];
-    int top = -1;
-    stack[++top] = root;
-    while (top != -1){
-        Node *temp = stack[top--];
+    stack<Node*> s;
+    s.push(root);
+    while (!s.empty()) {
+        Node *temp = s.top();
+        s.pop();
         cout << temp->data << " ";
         if (temp->right != NULL)
-            stack[++top] = temp->right;
+            s.push(temp->right);
         if (temp->left != NULL)
-            stack[++top] = temp->left;
+            s.push(temp->left);
     }
 }
 int main(){
@@ -86,5 +90,5 @@ int main(){
         default:cout << "Invalid choice";
         }
     } while (choice != 4);
-    return 0;
+   return 0;
 }
