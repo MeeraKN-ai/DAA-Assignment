@@ -1,4 +1,6 @@
 #include <iostream>
+#include <queue>
+#include <stack>
 using namespace std;
 struct Node{
     int data;
@@ -6,34 +8,56 @@ struct Node{
     Node *right;
 };
 Node *root = NULL;
-void insertNode(int value){
+void insertNode(int value) {
     Node *newNode = new Node;
     newNode->data = value;
     newNode->left = NULL;
     newNode->right = NULL;
-    if (root == NULL){
+    if (root == NULL) {
         root = newNode;
         return;
     }
-    Node *queue[1000];
-    int front = 0, rear = 0;
-    queue[rear++] = root;
-    while (front < rear){
-        Node *temp = queue[front++];
-        if (temp->left == NULL){
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        Node *temp = q.front();
+        q.pop();
+        if (temp->left == NULL) {
             temp->left = newNode;
             return;
         }
-        else{
-            queue[rear++] = temp->left;
+        else {
+            q.push(temp->left);
         }
-        if (temp->right == NULL){
+        if (temp->right == NULL) {
             temp->right = newNode;
             return;
         }
-        else{
-            queue[rear++] = temp->right;
+        else {
+            q.push(temp->right);
         }
+    }
+}
+void postorderIterative() {
+    if (root == NULL) {
+        cout << "Tree is empty";
+        return;
+    }
+    stack<Node*> stack1;
+    stack<Node*> stack2;
+    stack1.push(root);
+    while (!stack1.empty()) {
+        Node *temp = stack1.top();
+        stack1.pop();
+        stack2.push(temp);
+        if (temp->left != NULL)
+            stack1.push(temp->left);
+        if (temp->right != NULL)
+            stack1.push(temp->right);
+    }
+    while (!stack2.empty()) {
+        cout << stack2.top()->data << " ";
+        stack2.pop();
     }
 }
 void postorderRecursive(Node *temp){
@@ -42,27 +66,6 @@ void postorderRecursive(Node *temp){
     postorderRecursive(temp->left);
     postorderRecursive(temp->right);
     cout << temp->data << " ";
-}
-void postorderIterative(){
-    if (root == NULL){
-        cout << "Tree is empty";
-        return;
-    }
-    Node *stack1[1000];
-    Node *stack2[1000];
-    int top1 = -1, top2 = -1;
-    stack1[++top1] = root;
-    while (top1 != -1){
-        Node *temp = stack1[top1--];
-        stack2[++top2] = temp;
-        if (temp->left != NULL)
-            stack1[++top1] = temp->left;
-        if (temp->right != NULL)
-            stack1[++top1] = temp->right;
-    }
-    while (top2 != -1){
-        cout << stack2[top2--]->data << " ";
-    }
 }
 int main(){
     int choice, value;
