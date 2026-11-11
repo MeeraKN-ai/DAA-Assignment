@@ -1,5 +1,5 @@
 #include <iostream>
-#include<climits>
+#include <climits>
 #include <algorithm>
 using namespace std;
 int digitCount(long long x) {
@@ -21,8 +21,8 @@ long long karatsuba(long long x, long long y) {
     int n = max(digitCount(x), digitCount(y));
     int half = n / 2;
     long long p = power10(half);
-    long long a = x / p, b = x % p;   // x = a * 10^half + b
-    long long c = y / p, d = y % p;   // y = c * 10^half + d
+    long long a = x / p, b = x % p;   
+    long long c = y / p, d = y % p;   
     long long z0 = karatsuba(b, d);
     long long z2 = karatsuba(a, c);
     long long z1 = karatsuba(a + b, c + d) - z2 - z0;
