@@ -57,7 +57,7 @@ void floydWarshall(){
         cout << "Create the graph first";
         return;
     }
-    int dist[MAX][MAX];
+    long long dist[MAX][MAX];
     for (int i = 0; i < V; i++){
         for (int j = 0; j < V; j++)
             dist[i][j] = graph[i][j];
