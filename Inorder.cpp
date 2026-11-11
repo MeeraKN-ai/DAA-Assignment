@@ -1,40 +1,12 @@
 #include <iostream>
+#include <queue>
+#include <stack>
 using namespace std;
 struct Node{
     int data;
     Node *left, *right;
 };
 Node *root = NULL;
-void insertNode(int value){
-    Node *newNode = new Node;
-    newNode->data = value;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    if (root == NULL){
-        root = newNode;
-        return;
-    }
-    Node *queue[1000];
-    int front = 0, rear = 0;
-    queue[rear++] = root;
-    while (front < rear){
-        Node *temp = queue[front++];
-        if (temp->left == NULL){
-            temp->left = newNode;
-            return;
-        }
-        else{
-            queue[rear++] = temp->left;
-        }
-        if (temp->right == NULL){
-            temp->right = newNode;
-            return;
-        }
-        else{
-            queue[rear++] = temp->right;
-        }
-    }
-}
 void inorderRecursive(Node *temp){
     if (temp != NULL){
         inorderRecursive(temp->left);
@@ -42,16 +14,46 @@ void inorderRecursive(Node *temp){
         inorderRecursive(temp->right);
     }
 }
-void inorderIterative(){
-    Node *stack[1000];
-    int top = -1;
+void insertNode(int value) {
+    Node *newNode = new Node;
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    if (root == NULL) {
+        root = newNode;
+        return;
+    }
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        Node *temp = q.front();
+        q.pop();
+        if (temp->left == NULL) {
+            temp->left = newNode;
+            return;
+        }
+        else {
+            q.push(temp->left);
+        }
+        if (temp->right == NULL) {
+            temp->right = newNode;
+            return;
+        }
+        else {
+            q.push(temp->right);
+        }
+    }
+}
+void inorderIterative() {
+    stack<Node*> s;
     Node *current = root;
-    while (current != NULL || top != -1){
-        while (current != NULL){
-            stack[++top] = current;
+    while (current != NULL || !s.empty()) {
+        while (current != NULL) {
+            s.push(current);
             current = current->left;
         }
-        current = stack[top--];
+        current = s.top();
+        s.pop();
         cout << current->data << " ";
         current = current->right;
     }
