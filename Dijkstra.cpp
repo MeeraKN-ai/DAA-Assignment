@@ -63,7 +63,7 @@ void dijkstra(){
         cout << "Invalid source vertex";
         return;
     }
-    int dist[MAX];
+    long long dist[MAX];
     bool visited[MAX] = {false};
     for (int i = 0; i < V; i++)
         dist[i] = INF;
