@@ -70,32 +70,32 @@ void recursiveDFS(){
     cout << "DFS using recursion: ";
     DFSRecursive(start, visited);
 }
-void iterativeDFS(){
-    if (!created){
+void iterativeDFS() {
+    if (!created) {
         cout << "Create the graph first";
         return;
     }
     int start;
     cout << "Enter starting vertex: ";
     cin >> start;
-    if (start < 0 || start >= V){
+    if (start < 0 || start >= V) {
         cout << "Invalid starting vertex";
         return;
     }
     bool visited[MAX] = {false};
     int stack[MAX];
     int top = -1;
+    visited[start] = true;
     stack[++top] = start;
     cout << "DFS using iteration: ";
-    while (top != -1){
+    while (top != -1) {
         int vertex = stack[top--];
-        if (!visited[vertex]){
-            visited[vertex] = true;
-            cout << vertex << " ";
-            for (int i = degree[vertex] - 1; i >= 0; i--){
-                int next = adj[vertex][i];
-                if (!visited[next])
-                    stack[++top] = next;
+        cout << vertex << " ";
+        for (int i = degree[vertex] - 1; i >= 0; i--) {
+            int next = adj[vertex][i];
+            if (!visited[next]) {
+                visited[next] = true;
+                stack[++top] = next;
             }
         }
     }
