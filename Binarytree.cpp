@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 struct Node{
     int data;
@@ -12,66 +13,66 @@ Node* createNode(int value){
     newNode->right = NULL;
     return newNode;
 }
-void insertNode(int value){
+void insertNode(int value) {
     Node *newNode = createNode(value);
-    if (root == NULL){
+    if (root == NULL) {
         root = newNode;
         return;
     }
-    Node *queue[1000];
-    int front = 0, rear = 0;
-    queue[rear++] = root;
-    while (front < rear){
-        Node *temp = queue[front++];
-        if (temp->left == NULL){
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        Node *temp = q.front();
+        q.pop();
+        if (temp->left == NULL) {
             temp->left = newNode;
             return;
         }
-        else{
-            queue[rear++] = temp->left;
+        else {
+            q.push(temp->left);
         }
-        if (temp->right == NULL){
+        if (temp->right == NULL) {
             temp->right = newNode;
             return;
         }
-        else{
-            queue[rear++] = temp->right;
+        else {
+            q.push(temp->right);
         }
     }
 }
-void displayLevelOrder(){
-    if (root == NULL){
+void displayLevelOrder() {
+    if (root == NULL) {
         cout << "Tree is empty!" << endl;
         return;
     }
-    Node *queue[1000];
-    int front = 0, rear = 0;
-    queue[rear++] = root;
+    queue<Node*> q;
+    q.push(root);
     cout << "Level-order traversal: ";
-    while (front < rear){
-        Node *temp = queue[front++];
+    while (!q.empty()) {
+        Node *temp = q.front();
+        q.pop();
         cout << temp->data << " ";
         if (temp->left != NULL)
-            queue[rear++] = temp->left;
+            q.push(temp->left);
         if (temp->right != NULL)
-            queue[rear++] = temp->right;
+            q.push(temp->right);
     }
     cout << endl;
 }
-bool searchNode(int value){
+bool searchNode(int value) {
     if (root == NULL)
         return false;
-    Node *queue[1000];
-    int front = 0, rear = 0;
-    queue[rear++] = root;
-    while (front < rear){
-        Node *temp = queue[front++];
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        Node *temp = q.front();
+        q.pop();
         if (temp->data == value)
             return true;
         if (temp->left != NULL)
-            queue[rear++] = temp->left;
+            q.push(temp->left);
         if (temp->right != NULL)
-            queue[rear++] = temp->right;
+            q.push(temp->right);
     }
     return false;
 }
